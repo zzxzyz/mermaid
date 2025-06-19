@@ -1,0 +1,53 @@
+classDiagram
+    class TinysetupMgr
+    class GameInstall
+    class GameBase
+    class GameBaseModel
+    class GameBaseModelView
+    class DepotMgr
+    class DepotSync
+    class TinydlMgr
+    class RepoCfg
+    class Info_mgr
+    class Info_version
+    class info_download
+    class Info_manifest
+    class CTinyDL
+    class IDnEngine
+    class CDnEngine
+    class CDownTask
+    class CDataSaver
+    class CDataVerify
+    class CLinkMgr
+    class CPreDLMgr
+    class TLinkInfo
+    class TConsumerLinkInfo
+    class CHttpTask
+    class CPreDLDataCache
+    
+    TinysetupMgr *-- GameInstall
+    GameInstall <|-- GameBase
+    GameBase *-- GameBaseModel
+    GameBase *-- GameBaseModelView
+    GameBase *-- DepotMgr
+    DepotMgr *-- DepotSync
+    DepotSync *-- TinydlMgr
+    GameBaseModel *-- RepoCfg
+    GameBaseModel *-- Info_mgr
+    Info_mgr *-- Info_version
+    Info_version *-- info_download
+    Info_version *-- Info_manifest
+    info_download *-- TinydlMgr
+    TinydlMgr *-- CTinyDL
+    CTinyDL *-- IDnEngine
+    CDnEngine <|-- IDnEngine
+    CDnEngine --> CDownTask
+    CDownTask *-- CDataSaver
+    CDownTask *-- CDataVerify
+    CDownTask *-- CLinkMgr
+    CDownTask *-- CPreDLMgr
+    CLinkMgr *-- TLinkInfo
+    TLinkInfo *-- CPreDLMgr
+    CPreDLMgr *-- TConsumerLinkInfo
+    TConsumerLinkInfo *-- CHttpTask
+    CPreDLMgr *-- CPreDLDataCache
