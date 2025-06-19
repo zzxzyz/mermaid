@@ -1,0 +1,29 @@
+@startuml my_diagram
+
+TinysetupMgr -down.> GameInstall
+GameInstall <|-- GameBase
+GameBase -down.> GameBaseModel
+GameBase -down.> GameBaseModelView
+GameBase -down.> DepotMgr
+DepotMgr -down.> DepotSync
+DepotSync -down.> TinydlMgr
+GameBaseModel -down.> RepoCfg
+GameBaseModel -down.> Info_mgr
+Info_mgr -down.> Info_version
+Info_version -down.> info_download
+Info_version -down.> Info_manifest
+info_download -down.> TinydlMgr
+TinydlMgr -down.> CTinyDL
+CTinyDL -down.> IDnEngine
+CDnEngine <|-- IDnEngine
+CDnEngine .> CDownTask
+CDownTask -down.> CDataSaver
+CDownTask -down.> CDataVerify
+CDownTask -down.> CLinkMgr
+CDownTask -down.> CPreDLMgr
+CLinkMgr -down.> TLinkInfo
+TLinkInfo -down.> CPreDLMgr
+CPreDLMgr -down.> TConsumerLinkInfo
+TConsumerLinkInfo -down.> CHttpTask
+CPreDLMgr -down.> CPreDLDataCache
+@enduml
