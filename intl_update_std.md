@@ -1,0 +1,30 @@
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Remote as 资源服务器
+    participant Local as 本地文件
+    participant Client as 客户端
+    participant Server as 信令服务端
+
+    rect rgba(100,200,255,0.1)
+      Client->>Server: 1. 资源版本升级请求
+      Server-->>Client: 资源版本升级响应
+    end
+    rect rgba(0,200,100,0.1)
+      Client->>Remote: 2.需要更新，下载索引文件
+      Remote-->>Client: 索引文件下载成功
+      Client->>Client: 解析索引文件，获取更新文件列表信息
+    end
+    rect rgba(200,100,255,0.1)        
+      loop 遍历每个文件
+          Client->>Client: 4. 获取文件分片列表
+            loop 遍历每个分片
+                Client->>Local: 分片存在，读取本地分片
+                Client->>Remote: 分片不存在，下载分片
+                Client->>Local: 按索引位置写入文件
+          end
+      end
+    end
+        
+    Client->>Client: 更新完成，检查md5是否一致
+```

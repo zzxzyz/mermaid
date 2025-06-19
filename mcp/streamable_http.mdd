@@ -1,0 +1,37 @@
+sequenceDiagram
+    participant Client as 客户端
+    participant Server as 服务器
+
+    Note over Client,Server: 1. 会话初始化
+    Client->>Server: POST /message (初始化请求)
+    Server-->>Client: HTTP 200 + Session-ID: abc123
+
+    Note over Client,Server: 2. 建立SSE通道（可选）
+    Client->>Server: GET /message (Accept: text/event-stream, Session-ID)
+    Server-->>Client: HTTP 200 (Content-Type: text/event-stream)
+
+    Note over Client,Server: 3. 客户端请求与响应
+    loop 多轮交互
+        Client->>Server: POST /message (JSON-RPC请求, Session-ID)
+        alt 普通响应
+            Server-->>Client: HTTP 200 (JSON结果)
+        else 流式响应
+            Server-->>Client: HTTP 200 (SSE流)
+            Server-->>Client: SSE: 进度10%
+            Server-->>Client: SSE: 进度50%
+            Server-->>Client: SSE: 结果
+        else 长连接响应
+            Server-->>Client: HTTP 200 (SSE流)
+            loop 持续推送
+                Server-->>Client: SSE: 事件1
+                Server-->>Client: SSE: 事件2
+            end
+        end
+    end
+
+    Note over Client,Server: 4. 断线恢复
+    Client->>Server: [网络中断]
+    Client->>Server: GET /message (原Session-ID)
+    Server-->>Client: HTTP 200 (SSE流恢复)
+    Server-->>Client: SSE: 进度60% (续传)
+    Server-->>Client: SSE: 结果

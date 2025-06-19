@@ -1,0 +1,42 @@
+sequenceDiagram
+    participant 客户端 as 客户端
+    participant 服务端 as 服务端（HTTP）
+    autonumber
+
+    Note over 服务端: 预生成阶段
+    rect rgba(100,200,255,0.1)
+        服务端->>服务端: 预生成.zsync校验文件
+        Note right of 服务端: 包含文件块校验信息<br>(静态资源)
+    end
+
+    Note over 客户端,服务端: 分发流程（客户端主导）
+    rect rgba(0,200,100,0.1)
+        activate 客户端
+        客户端->>服务端: HTTP GET 请求.zsync文件
+        服务端-->>客户端: 返回.zsync文件
+        deactivate 客户端
+    end
+
+    rect rgba(200,100,255,0.1)
+        activate 客户端
+        客户端->>客户端: 比对本地旧文件与.zsync
+        客户端->>客户端: 确定需下载的差异块
+        deactivate 客户端
+    end
+
+    rect rgba(255,150,50,0.1)
+        activate 客户端
+        客户端->>服务端: HTTP Range请求差异块
+        Note left of 客户端: 仅请求需要的文件块
+        服务端-->>客户端: 返回差异块数据
+        deactivate 客户端
+    end
+
+    rect rgba(150,255,100,0.1)
+        activate 客户端
+        客户端->>客户端: 合并差异块数据
+        客户端->>客户端: 生成最终新文件
+        deactivate 客户端
+    end
+
+
