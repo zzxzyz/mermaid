@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant Client as 客户端
     participant Server as 服务器
@@ -20,3 +21,4 @@ sequenceDiagram
     loop 心跳
         Server-->>Client: :keep-alive\n\n
     end
+```

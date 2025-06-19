@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant 客户端 as 客户端
     participant 服务端 as 服务端（HTTP）
@@ -38,5 +39,4 @@ sequenceDiagram
         客户端->>客户端: 生成最终新文件
         deactivate 客户端
     end
-
-
+```

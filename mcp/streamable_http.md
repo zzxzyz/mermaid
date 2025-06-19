@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant Client as 客户端
     participant Server as 服务器
@@ -35,3 +36,4 @@ sequenceDiagram
     Server-->>Client: HTTP 200 (SSE流恢复)
     Server-->>Client: SSE: 进度60% (续传)
     Server-->>Client: SSE: 结果
+```

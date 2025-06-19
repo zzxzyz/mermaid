@@ -1,3 +1,4 @@
+```mermaid
 sequenceDiagram
     participant U as 用户界面
     participant M as 更新管理器
@@ -32,4 +33,4 @@ sequenceDiagram
     else 无需更新
         M-->>U: 显示最新版本提示
     end
-
+```
