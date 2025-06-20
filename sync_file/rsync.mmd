@@ -1,0 +1,32 @@
+sequenceDiagram
+    participant 客户端 as 客户端（目标端）
+    participant 服务端 as 服务端（源端）
+    autonumber
+
+    Note over 客户端,服务端: 双向同步流程
+    rect rgba(0,200,100,0.1)
+        Note right of 客户端: 计算分担：客户端<br>生成校验和 + 合并差异
+        activate 客户端
+        客户端->>客户端: 生成文件块校验和
+        deactivate 客户端
+        Note left of 客户端: 弱摘要(Adler-32)<br>+ 强摘要(MD5)
+        客户端->>服务端: 发送文件块校验和
+    end
+
+    rect rgba(100,150,255,0.1)
+        Note left of 服务端: 计算分担：服务端<br>计算差异（高并发压力）
+        activate 服务端
+        服务端->>服务端: 滑动窗口比较差异
+        deactivate 服务端
+        服务端->>服务端: 生成差异数据(delta)
+        服务端->>客户端: 返回差异数据(delta)
+    end
+
+    rect rgba(200,100,255,0.1)
+        activate 客户端
+        客户端->>客户端: 合并差异数据
+        客户端->>客户端: 还原最终文件
+        deactivate 客户端
+    end
+
+    Note over 客户端,服务端: 反向同步流程相同<br>角色互换重复上述步骤

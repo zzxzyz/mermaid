@@ -1,0 +1,29 @@
+flowchart LR
+    subgraph 用户计算机["用户计算机"]
+        Host[主机（含MCP客户端）<br>如Claude、IDE、工具]
+    end
+
+    subgraph MCP服务器集群
+        ServerA[MCP服务器A]
+        ServerB[MCP服务器B]
+        ServerC[MCP服务器C]
+    end
+
+    subgraph 数据源
+        LocalA[本地数据源A]
+        LocalB[本地数据源B]
+    end
+
+    subgraph 远程服务
+        RemoteC[远程服务C]
+    end
+
+    Host <-->|MCP协议| ServerA
+    Host <-->|MCP协议| ServerB
+    Host <-->|MCP协议| ServerC
+
+    ServerA -->|直接访问| LocalA
+    ServerB -->|直接访问| LocalB
+
+    ServerC -->|通过Web API连接| RemoteC
+    RemoteC <-..->|互联网访问| Internet

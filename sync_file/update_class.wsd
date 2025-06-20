@@ -16,7 +16,7 @@ info_download -down.> TinydlMgr
 TinydlMgr -down.> CTinyDL
 CTinyDL -down.> IDnEngine
 CDnEngine <|-- IDnEngine
-CDnEngine .> CDownTask
+CDnEngine -down.> CDownTask
 CDownTask -down.> CDataSaver
 CDownTask -down.> CDataVerify
 CDownTask -down.> CLinkMgr
